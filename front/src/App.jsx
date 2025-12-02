@@ -8,6 +8,9 @@ function App() {
     <BrowserRouter>
     <Routes>
       <Route path='/' element={<Home />}/>
+      <>
+      나는 프런트
+      </>
     </Routes>
     </BrowserRouter>
   )
