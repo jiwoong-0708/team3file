@@ -17,7 +17,7 @@ function App() {
       <Route path='/detail' element={<Detail />}/>
       <Route path='/login' element={<Login />}/>
       <Route path='/mypage' element={<Mypage />}/>
-      <Route path='/register' element={<Regiter />}/>
+      <Route path='/register' element={<Register />}/>
       <Route path='/wishlist' element={<Wishlist />}/>
     </Routes>
     </BrowserRouter>
