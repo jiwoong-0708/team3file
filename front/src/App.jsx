@@ -8,6 +8,9 @@ function App() {
     <BrowserRouter>
     <Routes>
       <Route path='/' element={<Home />}/>
+      <>
+      나는 백이야
+      </>
     </Routes>
     </BrowserRouter>
   )
