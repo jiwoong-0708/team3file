@@ -1,5 +1,6 @@
 import React from 'react'
 import '../src/App.css'
+import suneye1 from '../img/선글라스메인베너.png'
 
 // 임시 상품 이름, 가격
 
@@ -41,12 +42,15 @@ const Home = () => {
         </div>
       </nav>
 
-    <div>
       {/* 사진슬라이드베너 div */}
+
+    <div className="banner">
+      <img src={suneye1} alt="product" />
     </div>
 
 
       {/* 베스트 상품 div  */}
+      <div className="under-product">
       <h2 className="best-title">───────────────── Best Product ─────────────────</h2>
 
       <div className="product-grid">
@@ -57,6 +61,7 @@ const Home = () => {
             <p className="p-price">{item.price}</p>
           </div>
         ))}
+      </div>
       </div>
     </div>
   );
