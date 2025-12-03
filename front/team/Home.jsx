@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import '../src/App.css'
 import suneye1 from '../img/선글라스메인베너.png'
 
@@ -17,7 +17,10 @@ const products = [
   ];
 
 const Home = () => {
+      const navigate = useNavigate();
+
   return (
+
 
     <div className="container">
 
@@ -62,7 +65,7 @@ const Home = () => {
       <div className="under-product">
       <h2 className="best-title">───────────────── Best Product ─────────────────</h2>
 
-      <div className="product-grid">
+      <div className="product-grid" onClick={() => navigate("/detail")}>
         {products.map((item) => (
           <div className="product-card" key={item.id}>
             <div className="product-img" />
