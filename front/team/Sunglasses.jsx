@@ -8,4 +8,4 @@ const Sunglasses = () => {
   )
 }
 
-export default SunGlasses
+export default Sunglasses
