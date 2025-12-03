@@ -6,6 +6,10 @@ import Login from '../team/Login.jsx'
 import Mypage from '../team/Mypage.jsx'
 import Register from '../team/Register.jsx'
 import Wishlist from '../team/Wishlist.jsx'
+import Fashion from '../team/Fashion.jsx'
+import Glasses from '../team/Glasses.jsx'
+import Sports from '../team/Spotrs.jsx'
+import Sunglasses from '../team/Sunglasses.jsx'
 import './App.css'
 
 function App() {
@@ -19,6 +23,10 @@ function App() {
       <Route path='/mypage' element={<Mypage />}/>
       <Route path='/register' element={<Register />}/>
       <Route path='/wishlist' element={<Wishlist />}/>
+      <Route path='/fashion' element={<Fashion />}/>
+      <Route path='/glasses' element={<Glasses />}/>
+      <Route path='/sports' element={<Sports />}/>
+      <Route path='/sunglasses' element={<Sunglasses />}/>
     </Routes>
     </BrowserRouter>
   )

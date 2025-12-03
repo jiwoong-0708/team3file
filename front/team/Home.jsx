@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from "react-router-dom";
 import '../src/App.css'
 import suneye1 from '../img/선글라스메인베너.png'
 
@@ -28,17 +29,25 @@ const Home = () => {
             <span className="search-icon">🔍</span>
             <input placeholder="Search . . ." />
           </div>
-          <div className="category">카테고리 | 더보기</div>
+          <div className="category">
+            <Link to="/glasses">Glasses</Link>
+            <span> | </span>
+            <Link to="/sunglasses">SunGlasses</Link>
+            <span> | </span>
+            <Link to="/sports">Sports</Link>
+            <span> | </span>
+            <Link to="/fashion">Fashion</Link>
+            </div>
         </div>
         
         <div className="hed-center"> ------ Name ------ </div>
 
         <div className="hed-right">
-          <span>Login</span>
+          <Link to="/login" className="hed-link">Login</Link>
           <span> | </span>
-          <span>Sign up</span>
-          <span> 👤 </span>
-          <span> 🛒 </span>
+          <Link to="/register" className="hed-link">Sign up</Link>
+          <Link to="/mypage" className="hed-link"> 👤 </Link>
+          <Link to="/wishlist" className="hed-link"> 🛒 </Link>
         </div>
       </nav>
 
