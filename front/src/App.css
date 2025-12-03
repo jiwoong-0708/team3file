@@ -11,6 +11,8 @@ body {
   margin-bottom: 20px;
 }
 
+/* ------------Main.jsx(css)------------ */
+
 /* ───────── Header ───────── */
 
 .under-product {
@@ -135,4 +137,40 @@ margin-top: 40px;
   height: 405px;
   margin-left: -100px;
   margin-right: -100px;
+}
+
+
+/* ------------Login.jsx(css)------------ */
+
+.blank-div {
+width: 2030px;
+height: 1089.58px;
+}
+
+.login-div {
+width: 900px;
+height: 1000px;
+background-color: #ffffff;
+text-align: center;
+display: flex;
+margin-top: 90px;
+margin-left: 650px;
+border-radius: 30px;
+flex-direction: column; /* 세로로 배치 */
+gap: 100px;   
+align-items: center; 
+justify-content: center;       
+}
+
+.login-div h1 {
+  text-align: center;
+}
+
+.login-div input {
+  width: 500px;
+  height: 80px;
+  font-size: 30px;
+  border: none;                 /* 전체 테두리 제거 */
+  border-bottom: 2px solid #000; /* 아래선만 */
+  outline: none;                /* 클릭 시 파란선 제거 */
 }
