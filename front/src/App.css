@@ -118,6 +118,11 @@ body {
   color: #777;
 }
 
+.under-product img {
+  width: 350px;
+  height: 120px;
+}
+
 /* ───────── 슬라이드베너 ───────── */
 
 .banner {

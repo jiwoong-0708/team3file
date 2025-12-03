@@ -6,14 +6,14 @@ import suneye1 from '../img/선글라스메인베너.png'
 // 임시 상품 이름, 가격
 
 const products = [
-    { id: 1, name: "상품명", price: "₩29,000" },
-    { id: 2, name: "상품명", price: "₩29,000" },
-    { id: 3, name: "상품명", price: "₩29,000" },
-    { id: 4, name: "상품명", price: "₩29,000" },
-    { id: 5, name: "상품명", price: "₩29,000" },
-    { id: 6, name: "상품명", price: "₩29,000" },
-    { id: 7, name: "상품명", price: "₩29,000" },
-    { id: 8, name: "상품명", price: "₩29,000" },
+    { id: 1, name: "상품명", price: "₩29,000", image: "../img/안경1.avif"},
+    { id: 2, name: "상품명", price: "₩29,000", image: "../img/안경2.avif"},
+    { id: 3, name: "상품명", price: "₩29,000", image: "../img/안경3.avif"},
+    { id: 4, name: "상품명", price: "₩29,000", image: "../img/안경4.avif"},
+    { id: 5, name: "상품명", price: "₩29,000", image: "../img/선글1.avif"},
+    { id: 6, name: "상품명", price: "₩29,000", image: "../img/선글2.avif"},
+    { id: 7, name: "상품명", price: "₩29,000", image: "../img/패션1.avif"},
+    { id: 8, name: "상품명", price: "₩29,000", image: "../img/패션2.avif"},
   ];
 
 const Home = () => {
@@ -68,7 +68,7 @@ const Home = () => {
       <div className="product-grid" onClick={() => navigate("/detail")}>
         {products.map((item) => (
           <div className="product-card" key={item.id}>
-            <div className="product-img" />
+            <img src={item.image} alt={item.name} className="product-img" />
             <p className="p-name">{item.name}</p>
             <p className="p-price">{item.price}</p>
           </div>
