@@ -212,3 +212,92 @@ justify-content: center;
   font-size: 20px;   /* ← 글씨 크기 */
   font-weight: bold; /*(선택) 굵게 */
 }
+
+/* ------------Mypage.jsx(css)------------ */
+
+.container {
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+.add-btn {
+  padding: 10px 20px;
+  font-size: 18px;
+  border-radius: 8px;
+  background: #4a79ff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.cart-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-right: -240px;
+}
+
+.cart-card {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  gap: 300px;
+  background: #fafafa;
+
+}
+
+/* 상품 이미지 */
+.cart-img {
+  width: 250px;
+  height: 150px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+}
+
+/* 공통 블럭 스타일 */
+.cart-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+/* 세로 구분선 */
+.border-right {
+  padding-right: 30px;
+  margin-right: 20px;
+  border-right: 5px solid #ddd;
+}
+
+/* 상품명 */
+.cart-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* 가격 */
+.cart-price {
+  color: #444;
+  font-size: 20px;
+}
+/* 주문수량 */
+.cart-123 {
+  color: #444;
+  font-size: 20px;
+}
+/* 배송현황 */
+.cart-quick{
+  color: #f10909;
+  font-size: 20px;
+}
+
+.jumun {
+  font-size: 20px;
+  text-align: center;
+
+}
