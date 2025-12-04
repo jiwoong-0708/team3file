@@ -18,7 +18,7 @@ app.get('/users', async (req, res) => {
 });
 
 //--------------------회원가입---------------------------------------
-app.post('/users', async (req, res) => {
+app.post('/users', async (req, res) => { 
     const { id, pw, name, address } = req.body;
     try {
         const [result] = await pool.query(
@@ -61,7 +61,7 @@ app.get('/cart/:user_id', async (req, res) => {
     const { user_id } = req.params;
     try {
         const [cartItems] = await pool.query(
-            `SELECT ci.cart_item_id, ci.quantity, p.product_id, p.p_name, p.price 
+            `SELECT ci.cart_item_id, ci.quantity, p.product_id, p.p_name, p.price, p.img_url 
              FROM cart_items ci
              JOIN products p ON ci.product_id = p.product_id
              WHERE ci.user_id = ?`,
@@ -164,7 +164,7 @@ app.get('/orders/:user_id', async (req, res) => {
 
         for (let order of orders) {
             const [items] = await pool.query(
-                `SELECT oi.item_id, oi.product_id, p.p_name, oi.quantity, oi.price_at_purchase 
+                `SELECT oi.item_id, oi.product_id, p.p_name, oi.quantity, oi.price_at_purchase, p.img_url 
                  FROM order_items oi
                  JOIN products p ON oi.product_id = p.product_id
                  WHERE oi.order_id = ?`,
