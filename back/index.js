@@ -1,4 +1,3 @@
-// index.js
 const express = require('express');
 const cors = require('cors');
 const pool = require('./db');
@@ -14,12 +13,12 @@ app.get('/users', async (req, res) => {
         res.json(users);
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: '회원 조회 실패' });
-    }
+        res.status(500).json({ message: '회원 조회 실패' }); // json형태로 front에 메세지를 보냄
+    }                                                       // 프론트에서 alert(json받은변수.message) 하면 메세지 출력됨 
 });
 
 //--------------------회원가입---------------------------------------
-app.post('/users', async (req, res) => {
+app.post('/users', async (req, res) => { 
     const { id, pw, name, address } = req.body;
     try {
         const [result] = await pool.query(
@@ -62,7 +61,7 @@ app.get('/cart/:user_id', async (req, res) => {
     const { user_id } = req.params;
     try {
         const [cartItems] = await pool.query(
-            `SELECT ci.cart_item_id, ci.quantity, p.product_id, p.p_name, p.price 
+            `SELECT ci.cart_item_id, ci.quantity, p.product_id, p.p_name, p.price, p.img_url 
              FROM cart_items ci
              JOIN products p ON ci.product_id = p.product_id
              WHERE ci.user_id = ?`,
@@ -105,6 +104,7 @@ app.delete('/cart/:cart_item_id', async (req, res) => {
 //--------------------주문 생성---------------------------------------
 app.post('/orders', async (req, res) => {
     const { user_id, recipient_name, shipping_address, recipient_phone, shipping_memo } = req.body;
+    // pool.getConnection : db 와 연결 / 트랜젝션 사용(주문 후 장바구니 상품제거)을 위해 연결을 고정함 
     const conn = await pool.getConnection();
     try {
         await conn.beginTransaction();
@@ -113,8 +113,9 @@ app.post('/orders', async (req, res) => {
             'INSERT INTO orders (user_id, recipient_name, shipping_address, recipient_phone, shipping_memo) VALUES (?, ?, ?, ?, ?)',
             [user_id, recipient_name, shipping_address, recipient_phone, shipping_memo]
         );
-        const order_id = orderResult.insertId;
+        const order_id = orderResult.insertId;  // 주문 id값 가져오기
 
+        // ci.product_id 중에 (ci. : cart_items. 
         const [cartItems] = await conn.query(
             'SELECT ci.product_id, ci.quantity, p.price FROM cart_items ci JOIN products p ON ci.product_id = p.product_id WHERE ci.user_id = ?',
             [user_id]
@@ -122,7 +123,7 @@ app.post('/orders', async (req, res) => {
 
         if (cartItems.length === 0) throw new Error('장바구니에 상품이 없습니다.');
 
-        let totalPrice = 0;
+        let totalPrice = 0; // 총가격변수
         for (let item of cartItems) {
             const priceAtPurchase = item.price;
             totalPrice += priceAtPurchase * item.quantity;
@@ -163,7 +164,7 @@ app.get('/orders/:user_id', async (req, res) => {
 
         for (let order of orders) {
             const [items] = await pool.query(
-                `SELECT oi.item_id, oi.product_id, p.p_name, oi.quantity, oi.price_at_purchase 
+                `SELECT oi.item_id, oi.product_id, p.p_name, oi.quantity, oi.price_at_purchase, p.img_url 
                  FROM order_items oi
                  JOIN products p ON oi.product_id = p.product_id
                  WHERE oi.order_id = ?`,
