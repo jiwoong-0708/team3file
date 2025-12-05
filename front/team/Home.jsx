@@ -6,15 +6,9 @@ import '../src/App.css'
 const Home = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
+  const [slides, setSlides] = useState([]);
 
   const [index, setIndex] = useState(0);
-
-  // 👉 여기에 배너 이미지 URL 넣으면 됨!
-  const slides = [
-  "/banner1.jpg",
-  "/banner2.jpg",
-  "./img/예시안경.jpg"
-  ];
 
   const nextSlide = () => {
     setIndex((prev) => (prev + 1) % slides.length);
@@ -31,6 +25,11 @@ const Home = () => {
         const res = await fetch("http://localhost:8080/products");
         const data = await res.json();
         setProducts(data);
+
+        // product.img_url을 슬라이드용 배열에 넣기
+        const bannerImgs = data.map(p => p.img_url);
+        setSlides(bannerImgs);
+
       } catch (err) {
         console.error(err);
         alert("상품을 불러오는 중 오류가 발생했습니다.");
@@ -88,8 +87,8 @@ const Home = () => {
       </div>
 
       <div className="btn-box">
-        <button onClick={prevSlide}>Prev</button>
-        <button onClick={nextSlide}>Next</button>
+        <button onClick={prevSlide}>◀</button>
+        <button onClick={nextSlide}>▶</button>
       </div>
     </div>
 
