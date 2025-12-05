@@ -1,32 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import '../src/App.css'
 import suneye1 from '../img/선글라스메인베너.png'
 
-// 임시 상품 이름, 가격
-
-const products = [
-    { id: 1, name: "상품명", price: "₩29,000", image: "../img/안경1.avif"},
-    { id: 2, name: "상품명", price: "₩29,000", image: "../img/안경2.avif"},
-    { id: 3, name: "상품명", price: "₩29,000", image: "../img/안경3.avif"},
-    { id: 4, name: "상품명", price: "₩29,000", image: "../img/안경4.avif"},
-    { id: 5, name: "상품명", price: "₩29,000", image: "../img/선글1.avif"},
-    { id: 6, name: "상품명", price: "₩29,000", image: "../img/선글2.avif"},
-    { id: 7, name: "상품명", price: "₩29,000", image: "../img/패션1.avif"},
-    { id: 8, name: "상품명", price: "₩29,000", image: "../img/패션2.avif"},
-  ];
-
 const Home = () => {
-      const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
+
+  // DB에서 상품 불러오기
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch("http://localhost:8080/products");
+        const data = await res.json();
+        setProducts(data);
+      } catch (err) {
+        console.error(err);
+        alert("상품을 불러오는 중 오류가 발생했습니다.");
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   return (
-
-
     <div className="container">
 
-     {/*상단 헤더부분 */}
-    
-    <nav className="header">
+      {/* 헤더 */}
+      <nav className="header">
         <div className="hed-left">
           <div className="search-box">
             <span className="search-icon">🔍</span>
@@ -40,9 +41,9 @@ const Home = () => {
             <Link to="/sports">Sports</Link>
             <span> | </span>
             <Link to="/fashion">Fashion</Link>
-            </div>
+          </div>
         </div>
-        
+
         <div className="hed-center"> ------ Name ------ </div>
 
         <div className="hed-right">
@@ -54,29 +55,37 @@ const Home = () => {
         </div>
       </nav>
 
-      {/* 사진슬라이드베너 div */}
+      {/* 슬라이드 배너 */}
+      <div className="banner">
+        <img src={suneye1} alt="banner" />
+      </div>
 
-    <div className="banner">
-      <img src={suneye1} alt="product" />
-    </div>
-
-
-      {/* 베스트 상품 div  */}
+      {/* 상품 리스트 */}
       <div className="under-product">
-      <h2 className="best-title">───────────────── Best Product ─────────────────</h2>
+        <h2 className="best-title">───────────────── Best Product ─────────────────</h2>
 
-      <div className="product-grid" onClick={() => navigate("/detail")}>
-        {products.map((item) => (
-          <div className="product-card" key={item.id}>
-            <img src={item.image} alt={item.name} className="product-img" />
-            <p className="p-name">{item.name}</p>
-            <p className="p-price">{item.price}</p>
-          </div>
-        ))}
+        <div className="product-grid">
+          {products.map((item) => (
+            <div
+              className="product-card"
+              key={item.product_id}
+              onClick={() => navigate(`/detail/${item.product_id}`)}
+            >
+              <img
+                src={item.img_url}
+                alt={item.p_name}
+                className="product-img"
+              />
+
+              <p className="p-name">{item.p_name}</p>
+              <p className="p-price">₩{item.price.toLocaleString()}</p>
+            </div>
+          ))}
+        </div>
       </div>
-      </div>
+
     </div>
   );
-}
+};
 
-export default Home
+export default Home;
