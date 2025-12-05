@@ -34,7 +34,7 @@ const Register = () => {
     }
 
     if (form.pw.length < 8) {
-      return alert("비밀번호는 최소 6글자 이상이어야 합니다.");
+      return alert("비밀번호는 최소 8글자 이상이어야 합니다.");
     }
 
     try {
