@@ -13,13 +13,16 @@ import Sunglasses from '../team/Sunglasses.jsx'
 import './App.css'
 
 function App() {
-
+    const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem('user');
+    return saved ? JSON.parse(saved) : null;
+  });
   return (
     <BrowserRouter>
     <Routes>
       <Route path='/' element={<Home />}/>
       <Route path='/detail' element={<Detail />}/>
-      <Route path='/login' element={<Login />}/>
+      <Route path='/login' element={<Login user={user} setUser={setUser} />}/>
       <Route path='/mypage' element={<Mypage />}/>
       <Route path='/register' element={<Register />}/>
       <Route path='/wishlist' element={<Wishlist />}/>

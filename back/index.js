@@ -59,10 +59,13 @@ app.post('/login', async (req, res) => {
         if (rows.length === 0) {
             return res.status(401).json({ message: '로그인 실패' });
         }
-
+       const user = {
+            user_id: Number(rows[0].user_id),
+            name: rows[0].name
+        };
         res.json({
             message: '로그인 성공',
-            user: fixBigInt(rows[0]) // 🔥 BigInt 제거
+            user
         });
 
     } catch (err) {

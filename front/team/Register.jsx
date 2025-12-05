@@ -20,7 +20,7 @@ const Register = () => {
   };
 
   // ⭐ 회원가입 요청 함수
-  const handleRegister = async () => {
+  const registerleshgo = async () => {
     if (!form.id || !form.pw || !form.name || !form.address) {
       return alert("필수 값을 모두 입력해주세요.");
     }
@@ -52,7 +52,7 @@ const Register = () => {
       const data = await res.json();
 
       if (res.ok) {
-        alert("회원가입 성공!");
+        alert(`회원가입 성공!`);
         navigate('/login');
       } else {
         alert(data.message || "회원가입 실패");
@@ -107,7 +107,7 @@ const Register = () => {
           <div className="input-box"><label className="input-label">Adress :</label><input name="address" value={form.address} onChange={handleChange} type="text" /></div>
 
           {/* ⭐ 등록 버튼 */}
-          <button onClick={handleRegister} className="submit-btn">Accession</button>
+          <button onClick={registerleshgo} className="submit-btn">Accession</button>
         </div>
       </div>
     </div>
