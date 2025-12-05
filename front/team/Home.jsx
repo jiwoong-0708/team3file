@@ -1,11 +1,28 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import '../src/App.css'
-import suneye1 from '../img/선글라스메인베너.png'
+
 
 const Home = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
+
+  const [index, setIndex] = useState(0);
+
+  // 👉 여기에 배너 이미지 URL 넣으면 됨!
+  const slides = [
+  "/banner1.jpg",
+  "/banner2.jpg",
+  "./img/예시안경.jpg"
+  ];
+
+  const nextSlide = () => {
+    setIndex((prev) => (prev + 1) % slides.length);
+  };
+
+  const prevSlide = () => {
+    setIndex((prev) => (prev - 1 + slides.length) % slides.length);
+  };
 
   // DB에서 상품 불러오기
   useEffect(() => {
@@ -56,9 +73,25 @@ const Home = () => {
       </nav>
 
       {/* 슬라이드 배너 */}
-      <div className="banner">
-        <img src={suneye1} alt="banner" />
+      <div className="wrap">
+      <div className="slider">
+        <div
+          className="slide-track"
+          style={{ transform: `translateX(-${index * 1000}px)` }}
+        >
+          {slides.map((img, i) => (
+            <div className="slide" key={i}>
+              <img src={img} alt={`banner-${i}`} />
+            </div>
+          ))}
+        </div>
       </div>
+
+      <div className="btn-box">
+        <button onClick={prevSlide}>Prev</button>
+        <button onClick={nextSlide}>Next</button>
+      </div>
+    </div>
 
       {/* 상품 리스트 */}
       <div className="under-product">
