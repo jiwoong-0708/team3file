@@ -86,6 +86,13 @@ function App() {
       <Route path='/sunglasses' element={<Sunglasses />}/>
     </Routes>
     </BrowserRouter>
+    <nav className="foot-container"> 
+
+      <h3>상호명 : TEAM3(주)</h3>
+      <h3>위치 : 병점역 노숙중</h3>
+      <h3>INSTAGRAM : TEAM3@GLASSES</h3>
+
+    </nav>
     </div>
   )
 }

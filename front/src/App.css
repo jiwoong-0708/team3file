@@ -11,6 +11,13 @@ body {
   margin-bottom: 20px;
 }
 
+.foot-container {
+  border-top: 3px solid #aaa;
+  margin-top: 30px;
+  text-align: right;
+  
+}
+
 /* ------------Home.jsx(css)------------ */
 
 /* ───────── Header ───────── */
