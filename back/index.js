@@ -85,6 +85,26 @@ app.get('/products', async (req, res) => {
     }
 });
 
+//--------------------상세페이지 조회-----------------------------------
+app.get('/products/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const rows = await pool.query(
+      "SELECT * FROM products WHERE product_id = ?",
+      [id]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "상품 없음" });
+    }
+
+    res.json(rows[0]);
+  } catch (e) {
+    res.status(500).json({ error: e });
+  }
+});
+
+
 //-------------------- 장바구니 조회 -----------------------------------
 app.get('/cart/:user_id', async (req, res) => {
     const { user_id } = req.params;
