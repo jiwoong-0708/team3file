@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Route, Routes, BrowserRouter, Link} from 'react-router-dom'
+import { Route, Routes, BrowserRouter, Link, useNavigate } from 'react-router-dom'
 import Home from '../team/Home.jsx'
 import Detail from '../team/Detail.jsx'
 import Login from '../team/Login.jsx'
@@ -13,14 +13,16 @@ import Sunglasses from '../team/Sunglasses.jsx'
 import './App.css'
 
 function App() {
+    const navigate = useNavigate();
+
     const [user, setUser] = useState(() => {
     const saved = localStorage.getItem('user');
     return saved ? JSON.parse(saved) : null;
   });
+    
   return (
        <div className="container">
-    <BrowserRouter>
-
+    
         <nav className="header">
         <div className="hed-left">
           <div className="search-box">
@@ -85,7 +87,7 @@ function App() {
       <Route path='/sports' element={<Sports />}/>
       <Route path='/sunglasses' element={<Sunglasses />}/>
     </Routes>
-    </BrowserRouter>
+    
     <nav className="foot-container"> 
 
       <h3>상호명 : TEAM3(주)</h3>

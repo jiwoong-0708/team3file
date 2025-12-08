@@ -23,6 +23,37 @@ const Detail = () => {
     fetchProduct();
   }, [id]);
 
+  // 상품 장바구니에 추가
+  const addToCart = async () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const user_id = user?.user_id;  // user 안에서 user_id 꺼내기
+
+  if (!user_id) {
+    alert("로그인이 필요합니다.");
+    navigate("/login");
+    return;
+  }
+
+  try {
+    const res = await fetch("http://localhost:8080/cart/add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: Number(user_id),
+        product_id: Number(product.product_id),
+        quantity: 1
+      })
+    });
+
+    const data = await res.json();
+    alert(data.message);
+
+  } catch (err) {
+    console.error(err);
+    alert("장바구니 추가 실패");
+  }
+};
+
   if (!product) return <div className="loading">상품 정보를 불러오는 중...</div>;
 
   return (
@@ -39,7 +70,7 @@ const Detail = () => {
           <p className="detail-desc">{product.details}</p>
 
           <div className="detail-buttons">
-            <button className="detail-btn">장바구니 추가</button>
+            <button className="detail-btn" onClick={addToCart}>장바구니 추가</button>
             <button
               className="detail-btn detail-back"
               onClick={() => navigate("/")}

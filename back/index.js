@@ -125,22 +125,81 @@ app.get('/cart/:user_id', async (req, res) => {
 });
 
 //-------------------- 장바구니 추가 -----------------------------------
-app.post('/cart', async (req, res) => {
+app.post('/cart/add', async (req, res) => { 
     const { user_id, product_id, quantity } = req.body;
+
     try {
-        const result = await pool.query(
-            'INSERT INTO cart_items (user_id, product_id, quantity) VALUES (?, ?, ?)',
+        // mariadb는 destructuring 사용 X
+        const rows = await pool.query(
+            "SELECT * FROM cart_items WHERE user_id = ? AND product_id = ?",
+            [user_id, product_id]
+        );
+
+        // 이미 상품 있음 → 수량 증가
+        if (rows.length > 0) {
+            await pool.query(
+                "UPDATE cart_items SET quantity = quantity + ? WHERE cart_item_id = ?",
+                [quantity, rows[0].cart_item_id]   // ← 여기 수정
+            );
+            return res.json({ message: "수량이 증가되었습니다." });
+        }
+
+        // 신규 추가
+        await pool.query(
+            "INSERT INTO cart_items (user_id, product_id, quantity) VALUES (?, ?, ?)",
             [user_id, product_id, quantity]
         );
-        res.json({
-            message: '장바구니 추가 성공',
-            cart_item_id: Number(result.insertId)
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: '장바구니 추가 실패' });
+
+        res.json({ message: "장바구니에 추가되었습니다." });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "장바구니 추가 실패", error });
     }
 });
+// --------------------장바구니 결제-------------------------------------
+app.post("/order/create", async (req, res) => {
+    const { user_id } = req.body;
+
+    try {
+        // 1. 장바구니 목록 가져오기
+        const cartItems = await pool.query(
+            "SELECT * FROM cart_items WHERE user_id = ?",
+            [user_id]
+        );
+
+        if (cartItems.length === 0)
+            return res.status(400).json({ message: "장바구니가 비어있습니다." });
+
+        // 총액 계산
+        const total = cartItems.reduce((acc, cur) => acc + cur.quantity * cur.price, 0);
+
+        // 2. orders 테이블 insert
+        const orderResult = await pool.query(
+            "INSERT INTO orders (user_id, total_price) VALUES (?, ?)",
+            [user_id, total]
+        );
+
+        const order_id = orderResult.insertId;
+
+        // 3. order_items insert
+        for (let item of cartItems) {
+            await pool.query(
+                "INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)",
+                [order_id, item.product_id, item.quantity, item.price]
+            );
+        }
+
+        // 4. 장바구니 비우기
+        await pool.query("DELETE FROM cart_items WHERE user_id = ?", [user_id]);
+
+        res.json({ message: "결제 완료!", order_id });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "결제 실패" });
+    }
+});
+
 
 //-------------------- 서버 실행 ---------------------------------------
 app.listen(8080, () => {
