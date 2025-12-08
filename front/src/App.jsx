@@ -38,7 +38,7 @@ function App() {
           </div>
         </div>
 
-        <div className="hed-center"><Link to="/">------ Name ------ </Link></div>
+        <div className="hed-center"><Link to="/">Taco Tuseday</Link></div>
 
         <div className="hed-right">
           {/* 로그인 상태 따라 표시 변경 */}
