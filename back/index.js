@@ -200,6 +200,23 @@ app.post("/order/create", async (req, res) => {
     }
 });
 
+//----------------------장바구니 상품 삭제 ------------------------------
+app.delete('/cart/delete', async (req, res) => {
+    const { cart_item_id } = req.body;
+
+    try {
+        const result = await pool.query(
+            "DELETE FROM cart_items WHERE cart_item_id = ?",
+            [cart_item_id]
+        );
+
+        res.json({ message: "장바구니에서 삭제되었습니다." });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "삭제 실패", error });
+    }
+});
+
 
 //-------------------- 서버 실행 ---------------------------------------
 app.listen(8080, () => {

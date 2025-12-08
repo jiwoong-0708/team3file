@@ -42,6 +42,31 @@ const Wishlist = () => {
     }
   };
 
+  const deleteItem = async (cart_item_id) => {
+  if (!window.confirm("정말 삭제하시겠습니까?")) return;
+
+  try {
+    const res = await fetch("http://localhost:8080/cart/delete", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cart_item_id })
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert("삭제되었습니다.");
+      // 삭제 후 새로 목록 가져오기
+      setItems(items.filter(item => item.cart_item_id !== cart_item_id));
+    } else {
+      alert(data.message || "삭제 실패");
+    }
+  } catch (error) {
+    console.error(error);
+    alert("서버 오류 발생");
+  }
+};
+
 
   return (
     <div className="cart-container">
@@ -59,6 +84,12 @@ const Wishlist = () => {
               <p>수량: {item.quantity}</p>
               <p>합계: ₩{(item.price * item.quantity).toLocaleString()}</p>
             </div>
+            <button
+            className="delete-btn"
+            onClick={() => deleteItem(item.cart_item_id)}
+            >
+            삭제
+            </button>
           </div>
         ))
       )}
