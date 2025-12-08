@@ -15,37 +15,9 @@ const Wishlist = () => {
 
 
   return (
-<div className="container">
+<div>
 
-     {/*상단 헤더부분 */}
-    
-    <nav className="header">
-        <div className="hed-left">
-          <div className="search-box">
-            <span className="search-icon">🔍</span>
-            <input placeholder="Search . . ." />
-          </div>
-          <div className="category">
-            <Link to="/glasses">Glasses</Link>
-            <span> | </span>
-            <Link to="/sunglasses">SunGlasses</Link>
-            <span> | </span>
-            <Link to="/sports">Sports</Link>
-            <span> | </span>
-            <Link to="/fashion">Fashion</Link>
-            </div>
-        </div>
-        
-        <div className="hed-center"> ------ Name ------ </div>
 
-        <div className="hed-right">
-          <Link to="/login" className="hed-link">Login</Link>
-          <span> | </span>
-          <Link to="/register" className="hed-link">Sign up</Link>
-          <Link to="/mypage" className="hed-link"> 👤 </Link>
-          <Link to="/wishlist" className="hed-link"> 🛒 </Link>
-        </div>
-      </nav>
             <div className="blank-div">
               <div className="product-grid1" onClick={() => navigate("/detail")}>
         {products.map((item) => (
