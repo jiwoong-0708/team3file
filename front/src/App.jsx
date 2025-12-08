@@ -90,7 +90,7 @@ function App() {
 
       <h3>상호명 : TEAM3(주)</h3>
       <h3>위치 : 병점역 노숙중</h3>
-      <h3>INSTAGRAM : wonjunipnida</h3>
+      <h3>INSTAGRAM : 평택유치원1짱정원준</h3>
 
     </nav>
     </div>
