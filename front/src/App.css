@@ -352,3 +352,33 @@ justify-content: center;
   margin-bottom: -20px;
   margin-left: 300px;
   }
+  /* -----------category.css---------------- */
+   .category-container {
+  padding: 20px;
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.product-card2 {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  background: white;
+  transition: 0.2s;
+}
+
+.product-card2:hover {
+  transform: scale(1.05);
+}
+
+.product-card2 img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
