@@ -421,17 +421,44 @@ justify-content: center;
   height: 200px;
   object-fit: cover;
 }
-/* 슬라이드 배너 위 광고 영상 */
-.video-banner {
-  width: 100%;
-  height: 800px; /* 원하는 높이 맞춰 */
-  overflow: hidden;
-  margin-bottom: 20px;
-  border-radius: 10px;
-}
-
-.video-banner .video {
+/* --------ad_01 광고영상 .css --------*/
+.ad-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* 광고 박스 */
+.ad-content {
+  position: relative;
+  width: 80%;
+  max-width: 1800px;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* 광고 영상 */
+.ad-video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 광고 닫기 버튼 */
+.ad-close-btn {
+  width: 100%;
+  padding: 15px;
+  background: #ff4747;
+  color: #fff;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
 }

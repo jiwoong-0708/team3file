@@ -61,6 +61,7 @@ function App() {
           <button
               onClick={() => {
               localStorage.removeItem('user');
+              localStorage.removeItem('adClosedAt');
               setUser(null);
               navigate('/');
             }}
