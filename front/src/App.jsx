@@ -10,11 +10,12 @@ import Fashion from '../team/Fashion.jsx'
 import Glasses from '../team/Glasses.jsx'
 import Sports from '../team/Spotrs.jsx'
 import Sunglasses from '../team/Sunglasses.jsx'
+import Search from '../team/Search.jsx'
 import './App.css'
 
 function App() {
     const navigate = useNavigate();
-
+    const [keyword, setKeyword] = useState("")
     const [user, setUser] = useState(() => {
     const saved = localStorage.getItem('user');
     return saved ? JSON.parse(saved) : null;
@@ -27,7 +28,16 @@ function App() {
         <div className="hed-left">
           <div className="search-box">
             <span className="search-icon">🔍</span>
-            <input placeholder="Search . . ." />
+            <input 
+            placeholder="Search . . ." 
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                navigate(`/search?keyword=${keyword}`)
+              }
+            }}
+            />
           </div>
           <div className="category">
             <Link to="/glasses">Glasses</Link>
@@ -86,6 +96,7 @@ function App() {
       <Route path='/glasses' element={<Glasses />}/>
       <Route path='/sports' element={<Sports />}/>
       <Route path='/sunglasses' element={<Sunglasses />}/>
+      <Route path='/search' element={<Search />}/>
     </Routes>
     
     <nav className="foot-container"> 

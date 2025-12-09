@@ -73,6 +73,23 @@ app.post('/login', async (req, res) => {
         res.status(500).json({ message: '로그인 오류' });
     }
 });
+//--------------------------- 상품 검색 ---------------------------------
+app.get("/search", async (req, res) => {
+    const { keyword } = req.query;
+
+    try {
+        const rows = await pool.query(
+            "SELECT * FROM products WHERE p_name LIKE ?",
+            [`%${keyword}%`]
+        );
+
+        res.json(rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "검색 실패" });
+    }
+});
+
 
 //-------------------- 상품 조회 + 카테고리 필터 -------------------------
 app.get('/products', async (req, res) => {
@@ -95,8 +112,6 @@ app.get('/products', async (req, res) => {
         res.status(500).json({ message: '상품 조회 실패' });
     }
 });
-
-
 
 //--------------------상세페이지 조회-----------------------------------
 app.get('/products/:id', async (req, res) => {
