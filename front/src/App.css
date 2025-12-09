@@ -159,7 +159,7 @@ body {
 
 .slide-track {
   display: flex;
-  transition: transform 2s ease;
+
 }
 
 .slide {

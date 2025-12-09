@@ -2,35 +2,67 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import '../src/App.css'
 
-
 const Home = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [slides, setSlides] = useState([]);
 
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(1); 
+  const [transition, setTransition] = useState("transform 1s ease");
 
   const nextSlide = () => {
-  if (slides.length === 0) return;   // 슬라이드 준비 전 실행 방지
-  setIndex(prev => (prev + 1) % slides.length);
-};
+    if (slides.length === 0) return;
+    setIndex(prev => prev + 1);
+  };
 
-const prevSlide = () => {
-  if (slides.length === 0) return;
-  setIndex(prev => (prev - 1 + slides.length) % slides.length);
-};
+  const prevSlide = () => {
+    if (slides.length === 0) return;
+    setIndex(prev => prev - 1);
+  };
 
-useEffect(() => {
-  if (slides.length === 0) return;
+  // ⭐ 무한 루프 처리
+ useEffect(() => {
+  if (slides.length < 2) return;
 
-  const interval = setInterval(() => {
-    nextSlide();
-  }, 3000);
+  // 마지막 더미 도착
+  if (index === slides.length - 1) {
+    setTimeout(() => {
+      setTransition("none"); // 순간 이동
+      setIndex(1);
 
-  return () => clearInterval(interval);
+      // ⭐ transition 복구 (즉시)
+      setTimeout(() => {
+        setTransition("transform 1s ease");
+      }, 20);   // 20ms 지연 → 브라우저가 transition 변화를 감지할 수 있도록
+    }, 1000);
+  }
+
+  // 첫 번째 더미 도착
+  if (index === 0) {
+    setTimeout(() => {
+      setTransition("none"); // 순간 이동
+      setIndex(slides.length - 2);
+
+      // ⭐ transition 복구
+      setTimeout(() => {
+        setTransition("transform 1s ease");
+      }, 20);
+    }, 1000);
+  }
 }, [index, slides]);
 
-  // DB에서 상품 불러오기
+  // 자동 슬라이드
+  useEffect(() => {
+    if (slides.length === 0) return;
+
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [slides]);
+
+  // 상품/슬라이드 불러오기
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -38,10 +70,10 @@ useEffect(() => {
         const data = await res.json();
         setProducts(data);
 
-        // product.img_url을 슬라이드용 배열에 넣기
-        const bannerImgs = data.map(p => p.img_url);
-        setSlides(bannerImgs);
+        const imgs = data.map(p => p.img_url);
 
+        // ⭐ 무한 슬라이드용 더미 추가
+        setSlides([imgs[imgs.length - 1], ...imgs, imgs[0]]);
       } catch (err) {
         console.error(err);
         alert("상품을 불러오는 중 오류가 발생했습니다.");
@@ -53,29 +85,30 @@ useEffect(() => {
 
   return (
     <div>
-
-      
-
       {/* 슬라이드 배너 */}
       <div className="wrap">
-      <div className="slider">
-        <div
-          className="slide-track"
-          style={{ transform: `translateX(-${index * 1000}px)` }}
-        >
-          {slides.map((img, i) => (
-            <div className="slide" key={i}>
-              <img src={img} alt={`banner-${i}`} />
-            </div>
-          ))}
+        <div className="slider">
+          <div
+            className="slide-track"
+            style={{
+              transform: `translateX(-${index * 1000}px)`,
+              transition: transition
+            }}
+          >
+            {slides.map((img, i) => (
+              <div className="slide" key={i}>
+                <img src={img} alt={`banner-${i}`} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="btn-box">
+          <button onClick={prevSlide}>◀</button>
+          <button onClick={nextSlide}>▶</button>
         </div>
       </div>
 
-      <div className="btn-box">
-        <button onClick={prevSlide}>◀</button>
-        <button onClick={nextSlide}>▶</button>
-      </div>
-    </div>
 
       {/* 상품 리스트 */}
       <div className="under-product">
