@@ -11,12 +11,24 @@ const Home = () => {
   const [index, setIndex] = useState(0);
 
   const nextSlide = () => {
-    setIndex((prev) => (prev + 1) % slides.length);
-  };
+  if (slides.length === 0) return;   // 슬라이드 준비 전 실행 방지
+  setIndex(prev => (prev + 1) % slides.length);
+};
 
-  const prevSlide = () => {
-    setIndex((prev) => (prev - 1 + slides.length) % slides.length);
-  };
+const prevSlide = () => {
+  if (slides.length === 0) return;
+  setIndex(prev => (prev - 1 + slides.length) % slides.length);
+};
+
+useEffect(() => {
+  if (slides.length === 0) return;
+
+  const interval = setInterval(() => {
+    nextSlide();
+  }, 3000);
+
+  return () => clearInterval(interval);
+}, [index, slides]);
 
   // DB에서 상품 불러오기
   useEffect(() => {

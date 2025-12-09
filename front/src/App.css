@@ -142,11 +142,9 @@ body {
 /* ───────── 슬라이드베너 ───────── */
 
 .wrap {
-  width: 300px;
+  width: 1000px;
   margin: 40px auto;
   text-align: center;
-  margin-left: 500px;
-
 }
 
 .slider {
@@ -164,8 +162,9 @@ body {
 }
 
 .slide {
-  min-width: 1000px;
+  width: 1000px;
   height: 400px;
+  flex-shrink: 0;
 }
 
 .slide img {
