@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import '../src/App.css'
+import ad from '../img/ad_01.mp4'
 
 const Home = () => {
   const navigate = useNavigate();
@@ -85,6 +86,16 @@ const Home = () => {
 
   return (
     <div>
+      <div className="video-banner">
+        <video 
+          src={ad}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="video"
+        />
+      </div>
       {/* 슬라이드 배너 */}
       <div className="wrap">
         <div className="slider">

@@ -421,3 +421,17 @@ justify-content: center;
   height: 200px;
   object-fit: cover;
 }
+/* 슬라이드 배너 위 광고 영상 */
+.video-banner {
+  width: 100%;
+  height: 800px; /* 원하는 높이 맞춰 */
+  overflow: hidden;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+
+.video-banner .video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
