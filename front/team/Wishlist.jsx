@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; 
 
 const Wishlist = () => {
   const [items, setItems] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();  
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -19,54 +21,44 @@ const Wishlist = () => {
     fetchCart();
   }, []);
 
-  const totalPrice = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const totalPrice = items.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
 
-  const handlePay = async () => {
-    try {
-      const res = await fetch("http://localhost:8080/order/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_id: user.user_id })
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        alert("결제가 완료되었습니다!");
-        window.location.reload();
-      } else {
-        alert(data.message);
+  //  결제 페이지로 이동
+  const handlePay = () => {
+    navigate("/payout", { 
+      state: {
+        cart: items,
+        totalPrice: totalPrice
       }
-    } catch (err) {
-      console.error(err);
-      alert("결제 중 오류 발생");
-    }
+    });
   };
 
   const deleteItem = async (cart_item_id) => {
-  if (!window.confirm("정말 삭제하시겠습니까?")) return;
+    if (!window.confirm("정말 삭제하시겠습니까?")) return;
 
-  try {
-    const res = await fetch("http://localhost:8080/cart/delete", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cart_item_id })
-    });
+    try {
+      const res = await fetch("http://localhost:8080/cart/delete", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cart_item_id })
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (res.ok) {
-      alert("삭제되었습니다.");
-      // 삭제 후 새로 목록 가져오기
-      setItems(items.filter(item => item.cart_item_id !== cart_item_id));
-    } else {
-      alert(data.message || "삭제 실패");
+      if (res.ok) {
+        alert("삭제되었습니다.");
+        setItems(items.filter(item => item.cart_item_id !== cart_item_id));
+      } else {
+        alert(data.message || "삭제 실패");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("서버 오류 발생");
     }
-  } catch (error) {
-    console.error(error);
-    alert("서버 오류 발생");
-  }
-};
-
+  };
 
   return (
     <div className="cart-container">
@@ -84,11 +76,12 @@ const Wishlist = () => {
               <p>수량: {item.quantity}</p>
               <p>합계: ₩{(item.price * item.quantity).toLocaleString()}</p>
             </div>
+
             <button
-            className="delete-btn"
-            onClick={() => deleteItem(item.cart_item_id)}
+              className="delete-btn"
+              onClick={() => deleteItem(item.cart_item_id)}
             >
-            삭제
+              삭제
             </button>
           </div>
         ))
@@ -96,8 +89,11 @@ const Wishlist = () => {
 
       <hr />
       <h3>총 금액: ₩{totalPrice.toLocaleString()}</h3>
+
       {items.length > 0 && (
-        <button className="pay-btn" onClick={handlePay}>결제하기</button>
+        <button className="pay-btn" onClick={handlePay}>
+          결제하기
+        </button>
       )}
     </div>
   );

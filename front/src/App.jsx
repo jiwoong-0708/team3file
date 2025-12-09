@@ -11,6 +11,7 @@ import Glasses from '../team/Glasses.jsx'
 import Sports from '../team/Spotrs.jsx'
 import Sunglasses from '../team/Sunglasses.jsx'
 import Search from '../team/Search.jsx'
+import Payout from '../team/Payout.jsx'
 import './App.css'
 
 function App() {
@@ -98,6 +99,7 @@ function App() {
       <Route path='/sports' element={<Sports />}/>
       <Route path='/sunglasses' element={<Sunglasses />}/>
       <Route path='/search' element={<Search />}/>
+      <Route path="/payout" element={<Payout />}/>
     </Routes>
     
     <nav className="foot-container"> 

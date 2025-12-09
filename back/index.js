@@ -133,7 +133,7 @@ app.get('/products/:id', async (req, res) => {
 });
 
 
-//-------------------- 장바구니 조회 -----------------------------------
+//-------------------- 유저 별 장바구니 조회 -----------------------------------
 app.get('/cart/:user_id', async (req, res) => {
     const { user_id } = req.params;
     try {
@@ -186,45 +186,102 @@ app.post('/cart/add', async (req, res) => {
     }
 });
 // --------------------장바구니 결제-------------------------------------
-app.post("/order/create", async (req, res) => {
-    const { user_id } = req.body;
-
+app.post('/orders', async (req, res) => {
+    const conn = await pool.getConnection();
     try {
-        // 1. 장바구니 목록 가져오기
-        const cartItems = await pool.query(
-            "SELECT * FROM cart_items WHERE user_id = ?",
-            [user_id]
-        );
+        const {
+            user_id,
+            recipient_name,
+            shipping_address,
+            recipient_phone,
+            shipping_memo,
+            total_price,
+            payment_method,
+            items // [{product_id, quantity, price}]
+        } = req.body;
 
-        if (cartItems.length === 0)
-            return res.status(400).json({ message: "장바구니가 비어있습니다." });
+        await conn.beginTransaction();
 
-        // 총액 계산
-        const total = cartItems.reduce((acc, cur) => acc + cur.quantity * cur.price, 0);
-
-        // 2. orders 테이블 insert
-        const orderResult = await pool.query(
-            "INSERT INTO orders (user_id, total_price) VALUES (?, ?)",
-            [user_id, total]
+        // 1) orders 테이블 생성
+        const orderResult = await conn.query(
+            `INSERT INTO orders 
+            (user_id, recipient_name, shipping_address, recipient_phone, shipping_memo, total_price, status, payment_method)
+            VALUES (?, ?, ?, ?, ?, ?, 'paid', ?)`,
+            [user_id, recipient_name, shipping_address, recipient_phone, shipping_memo, total_price, payment_method]
         );
 
         const order_id = orderResult.insertId;
 
-        // 3. order_items insert
-        for (let item of cartItems) {
-            await pool.query(
-                "INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)",
-                [order_id, item.product_id, item.quantity, item.price]
+        // 2) order_items 테이블 생성 + 재고 감소
+        for (const item of items) {
+            const { product_id, quantity, price } = item;
+
+            // 주문 아이템 입력
+            await conn.query(
+                `INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase)
+                 VALUES (?, ?, ?, ?)`,
+                [order_id, product_id, quantity, price]
+            );
+
+            // 재고 감소
+            await conn.query(
+                `UPDATE products SET stock = stock - ? WHERE product_id = ? AND stock >= ?`,
+                [quantity, product_id, quantity]
             );
         }
+        // 주문 완료 후 장바구니 비우기
+        await conn.query(
+            `DELETE FROM cart_items WHERE user_id = ?`,
+            [user_id]
+        );
 
-        // 4. 장바구니 비우기
-        await pool.query("DELETE FROM cart_items WHERE user_id = ?", [user_id]);
+        await conn.commit();
 
-        res.json({ message: "결제 완료!", order_id });
+        res.json({ message: "결제 완료!", order_id: Number(order_id) });
+
+    } catch (err) {
+        await conn.rollback();
+        console.error(err);
+        res.status(500).json({ message: "주문 처리 실패", error: err });
+    } finally {
+        conn.release();
+    }
+});
+//---------------------유저 별 주문목록 조회-----------------------------
+app.get('/orders/:userId', async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        const rows = await pool.query(
+            `SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC`,
+            [userId]
+        );
+
+        res.json(rows);
+
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: "결제 실패" });
+        res.status(500).json({ message: "주문 목록 조회 실패" });
+    }
+});
+//----------------------특정 주문 상품목록 조회--------------------------
+app.get('/orders/items/:orderId', async (req, res) => {
+    try {
+        const { orderId } = req.params;
+
+        const rows = await pool.query(
+            `SELECT oi.*, p.p_name, p.img_url
+            FROM order_items oi
+            JOIN products p ON oi.product_id = p.product_id
+            WHERE oi.order_id = ?`,
+            [orderId]
+        );
+
+        res.json(rows);
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "주문 상품 조회 실패" });
     }
 });
 
