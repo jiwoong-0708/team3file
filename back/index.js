@@ -74,18 +74,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
-//-------------------- 상품 조회 ---------------------------------------
-app.get('/products', async (req, res) => {
-    try {
-        const products = await pool.query('SELECT * FROM products');
-        res.json(fixBigInt(products));
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: '상품 조회 실패' });
-    }
-});
-
-//-------------------카테고리 별 상품 조회------------------------------
+//-------------------- 상품 조회 + 카테고리 필터 -------------------------
 app.get('/products', async (req, res) => {
     const { category } = req.query;
 
@@ -98,14 +87,15 @@ app.get('/products', async (req, res) => {
             params.push(category);
         }
 
-        const [rows] = await pool.query(sql, params);
+        const products = await pool.query(sql, params);
 
-        res.json(rows);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "상품 조회 실패" });
+        res.json(fixBigInt(products));
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: '상품 조회 실패' });
     }
 });
+
 
 
 //--------------------상세페이지 조회-----------------------------------
