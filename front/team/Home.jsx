@@ -86,16 +86,7 @@ const Home = () => {
 
   return (
     <div>
-      <div className="video-banner">
-        <video 
-          src={ad}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="video"
-        />
-      </div>
+      
       {/* 슬라이드 배너 */}
       <div className="wrap">
         <div className="slider">
@@ -119,7 +110,16 @@ const Home = () => {
           <button onClick={nextSlide}>▶</button>
         </div>
       </div>
-
+      <div className="video-banner">
+        <video 
+          src={ad}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="video"
+        />
+      </div>
 
       {/* 상품 리스트 */}
       <div className="under-product">
