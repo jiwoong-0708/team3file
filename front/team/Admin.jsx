@@ -83,11 +83,11 @@ function Admin() {
       <div style={{ marginBottom: "30px" }}>
         <h2>{editing ? "상품 수정" : "상품 추가"}</h2>
 
-        <input name="p_name" placeholder="상품명" value={form.p_name} onChange={onChange} />
-        <input name="price" placeholder="가격" value={form.price} onChange={onChange} />
-        <input name="stock" placeholder="재고" value={form.stock} onChange={onChange} />
-        <input name="img_url" placeholder="이미지 URL" value={form.img_url} onChange={onChange} />
-        <select
+        <input className="inp" name="p_name" placeholder="상품명" value={form.p_name} onChange={onChange} />
+        <input className="inp" name="price" placeholder="가격" value={form.price} onChange={onChange} />
+        <input className="inp" name="stock" placeholder="재고" value={form.stock} onChange={onChange} />
+        <input className="inp" name="img_url" placeholder="이미지 URL" value={form.img_url} onChange={onChange} />
+        <select className="set" 
         name="category"
         value={form.category}
         onChange={onChange}
@@ -113,7 +113,7 @@ function Admin() {
 
       {/* 상품 목록 */}
       <h2>상품 목록</h2>
-      <table border="1" width="100%">
+      <table className="tbody-t" border="1" width="100%">
         <thead>
           <tr>
             <th>ID</th>
@@ -125,7 +125,7 @@ function Admin() {
             <th>관리</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="select-s">
           {products.map((p) => (
             <tr key={p.product_id}>
               <td>{p.product_id}</td>

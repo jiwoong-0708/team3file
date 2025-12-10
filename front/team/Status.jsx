@@ -23,7 +23,7 @@ function Status() {
     <div style={{ padding: "20px" }}>
       <h1>주문 관리</h1>
 
-      <table border="1" width="100%">
+      <table className="tbody-t" border="1" width="100%" >
         <thead>
           <tr>
             <th>주문ID</th>
@@ -35,7 +35,7 @@ function Status() {
           </tr>
         </thead>
 
-        <tbody>
+        <tbody className="select-s">
           {orders.map((o) => (
             <tr key={o.order_id}>
               <td>{o.order_id}</td>
@@ -46,7 +46,7 @@ function Status() {
               <td>{o.status}</td>
 
               <td>
-                <select
+                <select className="select-s"
                   value={o.status}
                   onChange={(e) => updateStatus(o.order_id, e.target.value)}
                 >

@@ -480,3 +480,35 @@ border-radius: 10px;
   font-size: 18px;
   cursor: pointer;
 }
+
+/* --------주문관리, 상품관리 테이블 .css --------*/
+
+.tbody-t {
+  text-align: center;
+  border: 1px solid #5b5b5c;
+}
+
+.tbody-s {
+  height: 50px;
+  font-size: 17px;
+  text-align: center;
+  border: 1px solid #5b5c5b;
+}
+
+.select-s {
+  width: 100%;
+  height: 45px;
+  font-size: 17px;
+  text-align: center;
+  border: 0px solid #ddd;
+}
+
+/* --------상품관리 인풋,등등 .css --------*/
+
+.inp {
+  height: 25px;
+}
+
+.set {
+  height: 40px;
+}
