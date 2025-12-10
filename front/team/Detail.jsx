@@ -67,6 +67,7 @@ const Detail = () => {
         <div className="detail-info">
           <h2>{product.p_name}</h2>
           <p className="detail-price">₩{product.price.toLocaleString()}</p>
+          <p className="detail-stock">재고: {product.stock} 개</p>
           <p className="detail-desc">{product.details}</p>
 
           <div className="detail-buttons">
