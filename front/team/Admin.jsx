@@ -87,7 +87,18 @@ function Admin() {
         <input name="price" placeholder="가격" value={form.price} onChange={onChange} />
         <input name="stock" placeholder="재고" value={form.stock} onChange={onChange} />
         <input name="img_url" placeholder="이미지 URL" value={form.img_url} onChange={onChange} />
-        <input name="category" placeholder="카테고리" value={form.category} onChange={onChange} />
+        <select
+        name="category"
+        value={form.category}
+        onChange={onChange}
+        style={{ width: "200px", height: "30px", marginBottom: "10px" }}
+        >
+        <option value="">카테고리 선택</option>
+        <option value="glasses">Glasses</option>
+        <option value="sunglasses">Sunglasses</option>
+        <option value="fashion">Fashion</option>
+        <option value="sports">Sports</option>
+        </select>
         <textarea name="details" placeholder="상품 설명" value={form.details} onChange={onChange}></textarea>
 
         <br />
