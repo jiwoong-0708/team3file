@@ -50,6 +50,7 @@ body {
   display: flex;
   align-items: center;
   gap: 20px;
+  margin-left: 40px;
 }
 .hed-right{
   width: 20%;
@@ -62,6 +63,7 @@ body {
     font-size: 35px;
     display: flex;
     margin-top: -5px;
+    margin-left: 10px;
     font-family: 'Noto Sans KR', sans-serif;
 }
 
@@ -109,7 +111,8 @@ body {
 }
 
 .product-card {
-  background: #f4f4f4;
+  background: #ffffff;
+  border: 1px solid #ddd;
   height: 370px;
   border-radius: 4px;
   padding: 10px;
@@ -126,11 +129,12 @@ body {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.product-img {
+.under-product .product-img {
   width: 100%;
-  height: 100px;
-  background: #e2e2e2;
+  height: 300px;
+  background: #ffffff;
   border-radius: 4px;
+  object-fit: cover;   /* 이미지가 비율 맞게 잘림 */
 }
 
 .p-name {
@@ -187,10 +191,10 @@ body {
   padding: 8px 16px;
   margin: 0 10px;
   border-radius: 8px;
-  border: none;
+  border: 1px solid #a3a2a2;
   cursor: pointer;
-  background: #4d7cff;
-  color: #fff;
+  background: #ffffff;
+  color: #a3a2a2;
   font-size: 14px;
 }
 
@@ -209,12 +213,15 @@ background-color: #ffffff;
 text-align: center;
 display: flex;
 margin-top: 90px;
-margin-left: 650px;
-border-radius: 30px;
+margin-left: 820px;
+border-radius: 50px;
 flex-direction: column; /* 세로로 배치 */
 gap: 100px;   
 align-items: center; 
-justify-content: center;       
+justify-content: center;  
+border:5px solid #b9b8b8; /* 두께 / 스타일 / 색상 */
+box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+border-radius: 10px;
 }
 
 .login-div input {
@@ -255,12 +262,15 @@ background-color: #ffffff;
 text-align: center;
 display: flex;
 margin-top: 90px;
-margin-left: 650px;
+margin-left: 820px;
 border-radius: 30px;
 flex-direction: column; /* 세로로 배치 */
 gap: 80px;   
 align-items: center; 
-justify-content: center;       
+justify-content: center;    
+border:5px solid #b9b8b8; /* 두께 / 스타일 / 색상 */
+box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+border-radius: 10px;   
 }
 
 .input-label {

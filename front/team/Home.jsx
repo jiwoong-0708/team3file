@@ -153,7 +153,7 @@ const Home = () => {
 
       {/* 상품 리스트 */}
       <div className="under-product">
-        <h2 className="best-title">───────────────── Best Product ─────────────────</h2>
+        <h2 className="best-title">───────────────────────────────── Best Product ─────────────────────────────────</h2>
 
         <div className="product-grid">
           {products.map((item) => (

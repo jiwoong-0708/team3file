@@ -62,7 +62,7 @@ function App() {
           <>
           <span className="hed-link">{user.name}님</span>
           <span> | </span>
-          <button
+          <Link
               onClick={() => {
               localStorage.removeItem('user');
               localStorage.removeItem('adClosedAt');
@@ -73,7 +73,7 @@ function App() {
             style={{ background: 'none', border: 'none', cursor: 'pointer' }}
           >
             로그아웃
-          </button>
+          </Link>
           {user.role === "admin" ? (
           <>
           <Link to="/admin" className="hed-link">상품관리</Link>
@@ -117,9 +117,10 @@ function App() {
     
     <nav className="foot-container"> 
 
-      <h3>상호명 : TEAM3(주)</h3>
-      <h3>위치 : 병점역 노숙중</h3>
-      <h3>INSTAGRAM : 평택유치원1짱정원준</h3>
+      <p>상호명 : TEAM3(주)</p>
+      <p>위치 : Global Academy</p>
+      <p>고객센터 : 031-234-4488</p>
+      <p>INSTAGRAM : @TAC0_Tdy</p>
 
     </nav>
     </div>
