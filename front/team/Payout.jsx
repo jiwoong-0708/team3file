@@ -26,6 +26,14 @@ const Payout = () => {
 
   // ⭐ 결제 처리
   const handlePayment = async () => {
+    // 결제 확인 창 추가
+    const confirmPay = window.confirm("주문취소가 불가능한 상품입니다.\n그래도 결제하시겠습니까?");
+
+    if (!confirmPay) {
+      alert("결제가 취소되었습니다.");
+      return; // ❗ 결제 중단
+    }
+
     if (!form.recipient_name || !form.recipient_phone || !form.shipping_address) {
       alert("필수 정보를 모두 입력해주세요.");
       return;

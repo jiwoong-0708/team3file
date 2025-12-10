@@ -207,7 +207,7 @@ app.post('/orders', async (req, res) => {
         const orderResult = await conn.query(
             `INSERT INTO orders 
             (user_id, recipient_name, shipping_address, recipient_phone, shipping_memo, total_price, status, payment_method)
-            VALUES (?, ?, ?, ?, ?, ?, 'paid', ?)`,
+            VALUES (?, ?, ?, ?, ?, ?, '상품 준비중', ?)`,
             [user_id, recipient_name, shipping_address, recipient_phone, shipping_memo, total_price, payment_method]
         );
 
