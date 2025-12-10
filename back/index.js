@@ -52,7 +52,7 @@ app.post('/login', async (req, res) => {
     const { id, pw } = req.body;
     try {
         const rows = await pool.query(
-            'SELECT user_id, name FROM users WHERE id=? AND pw=?',
+            'SELECT user_id, name, role FROM users WHERE id=? AND pw=?',
             [id, pw]
         );
 
@@ -61,7 +61,8 @@ app.post('/login', async (req, res) => {
         }
        const user = {
             user_id: Number(rows[0].user_id),
-            name: rows[0].name
+            name: rows[0].name,
+            role: rows[0].role
         };
         res.json({
             message: '로그인 성공',
@@ -299,6 +300,141 @@ app.delete('/cart/delete', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "삭제 실패", error });
+    }
+});
+//-------------------관리자용 상품 목록 조회------------------------------
+app.get('/admin/products', async (req, res) => {
+    try {
+        const rows = await pool.query(`
+            SELECT product_id, p_name, price, stock, img_url, category, details
+            FROM products
+            ORDER BY product_id DESC
+        `);
+        res.json(rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "상품 조회 실패" });
+    }
+});
+
+//-------------------관리자용 상품 상세 조회------------------------------
+app.get('/admin/products/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const rows = await pool.query(
+            "SELECT * FROM products WHERE product_id = ?",
+            [id]
+        );
+
+        if (rows.length === 0) {
+            return res.status(404).json({ message: "상품 없음" });
+        }
+
+        res.json(rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "조회 실패" });
+    }
+});
+
+//--------------------관리자용 상품 추가---------------------------------
+app.post('/admin/products', async (req, res) => {
+    const { p_name, price, stock, img_url, category, details } = req.body;
+
+    try {
+        await pool.query(
+            `INSERT INTO products (p_name, price, stock, img_url, category, details)
+             VALUES (?, ?, ?, ?, ?, ?)`,
+            [p_name, price, stock, img_url, category, details]
+        );
+
+        res.json({ message: "상품 추가 완료" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "상품 추가 실패" });
+    }
+});
+
+//--------------------관리자용 상품 수정---------------------------------
+app.put('/admin/products/:id', async (req, res) => {
+    const { id } = req.params;
+    const { p_name, price, stock, img_url, category, details } = req.body;
+
+    try {
+        await pool.query(
+            `UPDATE products 
+             SET p_name=?, price=?, stock=?, img_url=?, category=?, details=?
+             WHERE product_id=?`,
+            [p_name, price, stock, img_url, category, details, id]
+        );
+
+        res.json({ message: "상품 수정 완료" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "상품 수정 실패" });
+    }
+});
+//--------------------관리자용 상품 삭제--------------------------------
+app.delete('/admin/products/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        await pool.query("DELETE FROM products WHERE product_id = ?", [id]);
+        res.json({ message: "상품 삭제 완료" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "상품 삭제 실패" });
+    }
+});
+//----------------------관리자용 전제 주문 목록 조회--------------------------
+app.get('/admin/orders', async (req, res) => {
+    try {
+        const rows = await pool.query(`
+            SELECT order_id, user_id, total_price, status, created_at, recipient_name
+            FROM orders
+            ORDER BY created_at DESC
+        `);
+        res.json(rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "주문 조회 실패" });
+    }
+});
+//----------------------관리자용 특정 주문 목록 조회--------------------------
+app.get('/admin/orders/:orderId/items', async (req, res) => {
+    const { orderId } = req.params;
+
+    try {
+        const rows = await pool.query(`
+            SELECT oi.item_id, oi.quantity, oi.price_at_purchase,
+                   p.p_name, p.img_url, p.category
+            FROM order_items oi
+            JOIN products p ON oi.product_id = p.product_id
+            WHERE oi.order_id = ?
+        `, [orderId]);
+
+        res.json(rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "주문 아이템 조회 실패" });
+    }
+});
+//----------------------관리자용 주문 상태 변경--------------------------
+app.put('/admin/orders/:id/status', async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    try {
+        await pool.query(
+            "UPDATE orders SET status=? WHERE order_id=?",
+            [status, id]
+        );
+
+        res.json({ message: "주문 상태 변경 완료" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "상태 변경 실패" });
     }
 });
 

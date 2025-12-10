@@ -4,6 +4,8 @@ import Home from '../team/Home.jsx'
 import Detail from '../team/Detail.jsx'
 import Login from '../team/Login.jsx'
 import Mypage from '../team/Mypage.jsx'
+import Admin from '../team/Admin.jsx'
+import Status from '../team/Status.jsx'
 import Register from '../team/Register.jsx'
 import Wishlist from '../team/Wishlist.jsx'
 import Fashion from '../team/Fashion.jsx'
@@ -71,8 +73,16 @@ function App() {
           >
             로그아웃
           </button>
+          {user.role === "admin" ? (
+          <>
+          <Link to="/admin" className="hed-link">상품관리</Link>
+          <Link to="/status" className="hed-link">주문관리</Link>
+          </>
+          ):(
+          <>
           <Link to="/mypage" className="hed-link"> 👤 </Link>
           <Link to="/wishlist" className="hed-link"> 🛒 </Link>
+          </>)}
         </>
       ) : (
         <>
@@ -92,6 +102,8 @@ function App() {
       <Route path='/detail/:id' element={<Detail />}/>
       <Route path='/login' element={<Login user={user} setUser={setUser} />}/>
       <Route path='/mypage' element={<Mypage />}/>
+      <Route path="/admin" element={<Admin />}/>
+      <Route path="/status" element={<Status />}/>
       <Route path='/register' element={<Register />}/>
       <Route path='/wishlist' element={<Wishlist />}/>
       <Route path='/fashion' element={<Fashion />}/>
