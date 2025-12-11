@@ -85,9 +85,9 @@ function Admin() {
 
         <input className="inp" name="p_name" placeholder="상품명" value={form.p_name} onChange={onChange} />
         <input className="inp" name="price" placeholder="가격" value={form.price} onChange={onChange} />
-        <input className="inp" name="stock" placeholder="재고" value={form.stock} onChange={onChange} />
+        <br/><input className="inp" name="stock" placeholder="재고" value={form.stock} onChange={onChange} />
         <input className="inp" name="img_url" placeholder="이미지 URL" value={form.img_url} onChange={onChange} />
-        <select className="set" 
+        <p></p><select className="set" 
         name="category"
         value={form.category}
         onChange={onChange}
@@ -99,7 +99,7 @@ function Admin() {
         <option value="fashion">Fashion</option>
         <option value="sports">Sports</option>
         </select>
-        <textarea name="details" placeholder="상품 설명" value={form.details} onChange={onChange}></textarea>
+        <p><textarea name="details" className="text-a" placeholder="상품 설명" value={form.details} onChange={onChange}></textarea></p>
 
         <br />
         {editing ? (

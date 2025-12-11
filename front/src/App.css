@@ -523,8 +523,19 @@ border-radius: 10px;
 
 .inp {
   height: 25px;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 .set {
   height: 40px;
 }
+
+.text-a {
+  width: 300px;
+  height: 150px;
+  resize: none;
+  padding: 10px;
+  font-size: 16px;
+}
+
