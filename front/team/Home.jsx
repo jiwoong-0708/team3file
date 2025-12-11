@@ -160,22 +160,30 @@ const Home = () => {
             <div
               className="product-card"
               key={item.product_id}
-              onClick={() => navigate(`/detail/${item.product_id}`)}
-            >
-              <img
-                src={item.img_url}
-                alt={item.p_name}
-                className="product-img"
-              />
-              <p className="p-name">{item.p_name}</p>
-              <p className="p-price">₩{item.price.toLocaleString()}</p>
-            </div>
-          ))}
+              onClick={() => {
+                if(item.stock === 0){
+                  alert("품절된 상품입니다.");
+                  return; 
+                }
+                navigate(`/detail/${item.product_id}`)}}
+              >
+                <img
+                  src={item.img_url}
+                  alt={item.p_name}
+                  className="product-img"
+                />
+                <p className="p-name">{item.p_name}</p>
+                <p className="p-price">₩{item.price.toLocaleString()}</p>
+                {item.stock === 0 && (
+                <div className="overlay">품절</div>
+              )}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
 
-    </div>
-  );
-};
+      </div>
+    );
+  };
 
 export default Home;
