@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+// axios 사용해봄 (json 자동변환)
 
 function Status() {
   const [orders, setOrders] = useState([]);

@@ -11,10 +11,10 @@ const Home = () => {
   const [index, setIndex] = useState(1); 
   const [transition, setTransition] = useState("transform 1s ease");
 
-  // ⭐ 광고 모달 상태
+  //  광고 모달 상태
   const [showAd, setShowAd] = useState(false);
 
-  // ⭐ 처음 들어올 때 광고 보여줄지 판단
+  //  처음 들어올 때 광고 보여줄지 판단
   useEffect(() => {
     const lastClosed = localStorage.getItem("adClosedAt");
 
@@ -31,7 +31,7 @@ const Home = () => {
     }
   }, []);
 
-  // ⭐ 광고 닫기
+  //  광고 닫기
   const closeAd = () => {
     localStorage.setItem("adClosedAt", Date.now());
     setShowAd(false);
@@ -107,7 +107,7 @@ const Home = () => {
   return (
     <div>
 
-      {/* ⭐ 전체 화면 광고 모달 */}
+      {/* 전체 화면 광고 모달 */}
       {showAd && (
         <div className="ad-modal">
           <div className="ad-content">

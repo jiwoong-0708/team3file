@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import '../src/App.css'
 
 const Register = () => {
   const navigate = useNavigate();
 
-  // ⭐ 상태값 추가 (프론트 입력값 관리)
+  // 상태값 추가 (프론트 입력값 관리)
   const [form, setForm] = useState({
     id: '',
     pw: '',
@@ -19,7 +19,7 @@ const Register = () => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  // ⭐ 회원가입 요청 함수
+  // 회원가입 요청 함수
   const registerleshgo = async () => {
     if (!form.id || !form.pw || !form.name || !form.address) {
       return alert("필수 값을 모두 입력해주세요.");
@@ -73,13 +73,18 @@ const Register = () => {
           <h2>Sign Up</h2>
           <h3>Member Information</h3>
 
-          <div className="input-box"><label className="input-label">ID :</label><input name="id" value={form.id} onChange={handleChange} type="text" /></div>
-          <div className="input-box"><label className="input-label">Password :</label><input name="pw" value={form.pw} onChange={handleChange} type="password" /></div>
-          <div className="input-box"><label className="input-label">Check the Password :</label><input name="pwCheck" value={form.pwCheck} onChange={handleChange} type="password" /></div>
-          <div className="input-box"><label className="input-label">Name :</label><input name="name" value={form.name} onChange={handleChange} type="text" /></div>
-          <div className="input-box"><label className="input-label">Adress :</label><input name="address" value={form.address} onChange={handleChange} type="text" /></div>
+          <div className="input-box"><label className="input-label">ID :</label>
+          <input name="id" value={form.id} onChange={handleChange} type="text" /></div>
+          <div className="input-box"><label className="input-label">Password :</label>
+          <input name="pw" value={form.pw} onChange={handleChange} type="password" /></div>
+          <div className="input-box"><label className="input-label">Check the Password :</label>
+          <input name="pwCheck" value={form.pwCheck} onChange={handleChange} type="password" /></div>
+          <div className="input-box"><label className="input-label">Name :</label>
+          <input name="name" value={form.name} onChange={handleChange} type="text" /></div>
+          <div className="input-box"><label className="input-label">Adress :</label>
+          <input name="address" value={form.address} onChange={handleChange} type="text" /></div>
 
-          {/* ⭐ 등록 버튼 */}
+          {/* 등록 버튼 */}
           <button onClick={registerleshgo} className="submit-btn">Accession</button>
         </div>
       </div>
