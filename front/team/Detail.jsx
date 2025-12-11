@@ -24,13 +24,19 @@ const Detail = () => {
   }, [id]);
 
   // 상품 장바구니에 추가
-  const addToCart = async () => {
+const addToCart = async () => {
   const user = JSON.parse(localStorage.getItem("user"));
-  const user_id = user?.user_id;  // user 안에서 user_id 꺼내기
+  const user_id = user?.user_id;
 
   if (!user_id) {
     alert("로그인이 필요합니다.");
     navigate("/login");
+    return;
+  }
+
+  // 프론트에서 재고 체크
+  if (product.stock <= 0) {
+    alert("품절된 상품입니다.");
     return;
   }
 
@@ -46,6 +52,13 @@ const Detail = () => {
     });
 
     const data = await res.json();
+
+    // 백엔드 재고 검사 실패 시 메시지 출력
+    if (!res.ok) {
+      alert(data.message);
+      return;
+    }
+
     alert(data.message);
 
   } catch (err) {

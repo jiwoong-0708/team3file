@@ -154,38 +154,64 @@ app.get('/cart/:user_id', async (req, res) => {
 });
 
 //-------------------- 장바구니 추가 -----------------------------------
-app.post('/cart/add', async (req, res) => { 
-    const { user_id, product_id, quantity } = req.body;
+app.post('/cart/add', async (req, res) => {
+  const { user_id, product_id, quantity } = req.body;
 
-    try {
-        // mariadb는 destructuring 사용 X
-        const rows = await pool.query(
-            "SELECT * FROM cart_items WHERE user_id = ? AND product_id = ?",
-            [user_id, product_id]
-        );
+  try {
+    // 1) 상품 재고 확인
+    const [product] = await pool.query(
+      "SELECT stock FROM products WHERE product_id = ?",
+      [product_id]
+    );
 
-        // 이미 상품 있음 → 수량 증가
-        if (rows.length > 0) {
-            await pool.query(
-                "UPDATE cart_items SET quantity = quantity + ? WHERE cart_item_id = ?",
-                [quantity, rows[0].cart_item_id]   // ← 여기 수정
-            );
-            return res.json({ message: "수량이 증가되었습니다." });
-        }
-
-        // 신규 추가
-        await pool.query(
-            "INSERT INTO cart_items (user_id, product_id, quantity) VALUES (?, ?, ?)",
-            [user_id, product_id, quantity]
-        );
-
-        res.json({ message: "장바구니에 추가되었습니다." });
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "장바구니 추가 실패", error });
+    if (!product) {
+      return res.status(404).json({ message: "상품을 찾을 수 없습니다." });
     }
+
+    const stock = product.stock;
+
+    // 2) 장바구니에 이미 있는지 확인
+    const rows = await pool.query(
+      "SELECT * FROM cart_items WHERE user_id = ? AND product_id = ?",
+      [user_id, product_id]
+    );
+
+    const existing = rows[0]; // 있으면 객체, 없으면 undefined
+    const currentQty = existing ? existing.quantity : 0;
+
+    const newTotalQty = currentQty + quantity;
+
+    // 3) 재고 초과 여부 검사
+    if (newTotalQty > stock) {
+      return res.status(400).json({
+        message: `재고 부족: 최대 ${stock}개까지 담을 수 있습니다.`
+      });
+    }
+
+    // 4) 기존 상품이면 수량 증가
+    if (existing) {
+      await pool.query(
+        "UPDATE cart_items SET quantity = ? WHERE cart_item_id = ?",
+        [newTotalQty, existing.cart_item_id]
+      );
+
+      return res.json({ message: "장바구니 수량이 증가되었습니다." });
+    }
+
+    // 5) 신규 추가
+    await pool.query(
+      "INSERT INTO cart_items (user_id, product_id, quantity) VALUES (?, ?, ?)",
+      [user_id, product_id, quantity]
+    );
+
+    res.json({ message: "장바구니에 추가되었습니다." });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "장바구니 추가 실패", error });
+  }
 });
+
 // --------------------장바구니 결제-------------------------------------
 app.post('/orders', async (req, res) => {
     const conn = await pool.getConnection();

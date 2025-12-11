@@ -25,7 +25,7 @@ const Wishlist = () => {
     (acc, item) => acc + item.price * item.quantity,
     0
   );
-
+  console.log(items)
   //  결제 페이지로 이동
   const handlePay = () => {
     navigate("/payout", { 
