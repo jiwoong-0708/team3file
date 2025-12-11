@@ -40,7 +40,7 @@ const Payout = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:8080/orders", {
+      const res = await fetch("http://192.168.0.221:8080/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

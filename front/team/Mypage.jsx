@@ -12,7 +12,7 @@ const Mypage = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/orders/${user.user_id}`);
+        const res = await fetch(`http://192.168.0.221:8080/orders/${user.user_id}`);
         const data = await res.json();
         setOrders(data);
       } catch (err) {
@@ -35,7 +35,7 @@ const Mypage = () => {
     }
 
     try {
-      const res = await fetch(`http://localhost:8080/orders/items/${orderId}`);
+      const res = await fetch(`http://192.168.0.221:8080/orders/items/${orderId}`);
       const data = await res.json();
 
       setSelectedOrderId(orderId);

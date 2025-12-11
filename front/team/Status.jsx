@@ -6,7 +6,7 @@ function Status() {
   const [orders, setOrders] = useState([]);
 
   const fetchOrders = async () => {
-    const res = await axios.get("http://localhost:8080/admin/orders");
+    const res = await axios.get("http://192.168.0.221:8080/admin/orders");
     setOrders(res.data);
   };
 
@@ -15,7 +15,7 @@ function Status() {
   }, []);
 
   const updateStatus = async (order_id, status) => {
-    await axios.put(`http://localhost:8080/admin/orders/${order_id}/status`, { status });
+    await axios.put(`http://192.168.0.221:8080/admin/orders/${order_id}/status`, { status });
     alert("상태 변경 완료!");
     fetchOrders();
   };

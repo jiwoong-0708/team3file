@@ -12,7 +12,7 @@ function Search() {
   useEffect(() => {
     if (!query) return;
 
-    fetch(`http://localhost:8080/search?keyword=${query}`)
+    fetch(`http://192.168.0.221:8080/search?keyword=${query}`)
       .then((res) => res.json())
       .then((data) => setResults(data))
       .catch((err) => console.error(err));

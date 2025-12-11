@@ -11,7 +11,7 @@ const Detail = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/products/${id}`);
+        const res = await fetch(`http://192.168.0.221:8080/products/${id}`);
         const data = await res.json();
         setProduct(data);
       } catch (err) {
@@ -35,7 +35,7 @@ const Detail = () => {
   }
 
   try {
-    const res = await fetch("http://localhost:8080/cart/add", {
+    const res = await fetch("http://192.168.0.221:8080/cart/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

@@ -7,7 +7,7 @@ const Glasses = () => {
   useEffect(() => {
     const fetchGlasses = async () => {
       try {
-        const res = await fetch("http://localhost:8080/products?category=glasses");
+        const res = await fetch("http://192.168.0.221:8080/products?category=glasses");
         const data = await res.json();
         setProducts(data);
       } catch (err) {

@@ -9,7 +9,7 @@ const Wishlist = () => {
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/cart/${user.user_id}`);
+        const res = await fetch(`http://192.168.0.221:8080/cart/${user.user_id}`);
         const data = await res.json();
         setItems(data);
       } catch (err) {

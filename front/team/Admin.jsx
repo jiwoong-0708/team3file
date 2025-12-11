@@ -16,7 +16,7 @@ function Admin() {
 
   // 상품 불러오기
   const fetchProducts = async () => {
-    const res = await axios.get("http://localhost:8080/admin/products");
+    const res = await axios.get("http://192.168.0.221:8080/admin/products");
     setProducts(res.data);
   };
 
@@ -31,7 +31,7 @@ function Admin() {
 
   // 상품 추가
   const addProduct = async () => {
-    await axios.post("http://localhost:8080/admin/products", form);
+    await axios.post("http://192.168.0.221:8080/admin/products", form);
     alert("상품 추가 완료");
     setForm({ p_name: "", price: "", stock: "", img_url: "", category: "", details: "" });
     fetchProducts();

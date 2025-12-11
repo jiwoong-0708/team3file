@@ -89,7 +89,7 @@ const Home = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("http://localhost:8080/products");
+        const res = await fetch("http://192.168.0.221:8080/products");
         const data = await res.json();
         setProducts(data);
 

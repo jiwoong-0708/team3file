@@ -17,7 +17,7 @@ const Login = ({ user, setUser }) => {
     }
 
     try {
-      const res = await fetch('http://localhost:8080/login', {
+      const res = await fetch('http://192.168.0.221:8080/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: form.id, pw: form.pw })
