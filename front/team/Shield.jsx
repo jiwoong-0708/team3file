@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-
+// *React Router 공식 문법도 children 사용*
 function Shield({ children }) {
   const [checked, setChecked] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
