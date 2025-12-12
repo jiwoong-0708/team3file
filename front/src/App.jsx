@@ -14,7 +14,9 @@ import Sports from '../team/Spotrs.jsx'
 import Sunglasses from '../team/Sunglasses.jsx'
 import Search from '../team/Search.jsx'
 import Payout from '../team/Payout.jsx'
+import Shield from '../team/Shield.jsx'
 import './App.css'
+
 
 function App() {
     const navigate = useNavigate();
@@ -103,8 +105,8 @@ function App() {
       <Route path='/detail/:id' element={<Detail />}/>
       <Route path='/login' element={<Login user={user} setUser={setUser} />}/>
       <Route path='/mypage' element={<Mypage />}/>
-      <Route path="/admin" element={<Admin />}/>
-      <Route path="/status" element={<Status />}/>
+      <Route path="/admin" element={<Shield><Admin /></Shield>}/>
+      <Route path="/status" element={<Shield><Status /></Shield>}/>
       <Route path='/register' element={<Register />}/>
       <Route path='/wishlist' element={<Wishlist />}/>
       <Route path='/fashion' element={<Fashion />}/>
